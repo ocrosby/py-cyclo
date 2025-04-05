@@ -42,7 +42,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          source venv/bin/activate
           npx semantic-release --dry-run
         shell: bash
 
@@ -116,6 +115,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          source venv/bin/activate
           npx semantic-release --dry-run
         shell: bash
