@@ -1,10 +1,10 @@
 import shutil
 
-from invoke import task
+from invoke import task, Context
 
 
 @task(aliases=["c"])
-def clean(c):
+def clean(c: Context) -> None:
     """Clean up transient files."""
     patterns = [
         "__pycache__",
@@ -33,21 +33,34 @@ def clean(c):
     c.run("find ./tests -type d -name '.mypy_cache' -exec rm -rf {} +")
 
 
-@task(aliases=["i"])
-def install(c):
+@task(
+    pre=[clean],
+    aliases=["i"],
+    help={"prod": "Install production dependencies."},
+)
+def install(c: Context, prod: bool = False) -> None:
     """Install dependencies."""
-    c.run("pip install .[dev]")
+    c.run('pip install --upgrade "pip>=21.3"')
+    c.run("pip install flit")
+    c.run("pip install build")
+
+    if prod:
+        print("Installing production dependencies ...")
+        c.run("flit install --deps production")
+    else:
+        print("Installing development dependencies...")
+        c.run("flit install --symlink")  # install package in editable mode
 
 
 @task(aliases=["f"])
-def format_code(c):
+def format_code(c: Context) -> None:
     """Format code using black."""
     c.run("isort py_cyclo/ tests/ tasks.py")
     c.run("black py_cyclo/ tests/ tasks.py")
 
 
 @task(aliases=["l"], pre=[format_code])
-def lint(c):
+def lint(c: Context) -> None:
     """Lint code using flake8, pylint, and isort."""
     c.run("flake8 py_cyclo/ tests/ tasks.py")
     c.run("pylint py_cyclo/ tests/ tasks.py")
@@ -55,30 +68,30 @@ def lint(c):
 
 
 @task(aliases=["t"])
-def test(c):
+def test(c: Context) -> None:
     """Run tests using pytest."""
     c.run("pytest")
 
 
 @task(aliases=["b"])
-def build(c):
+def build(c: Context) -> None:
     """Build the project."""
     c.run("python -m build")
 
 
 @task(aliases=["m"])
-def mypy(c):
+def mypy(c: Context) -> None:
     """Type check using mypy."""
     c.run("mypy .")
 
 
 @task(aliases=["s"])
-def sort_imports(c):
+def sort_imports(c: Context) -> None:
     """Sort imports using isort."""
     c.run("isort .")
 
 
 @task(aliases=["p"])
-def pylint(c):
+def pylint(c: Context) -> None:
     """Lint code using pylint."""
     c.run("pylint .")
