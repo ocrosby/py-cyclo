@@ -1,0 +1,48 @@
+{
+  "name": "py-cyclo",
+  "version": "1.0.3",
+  "description": "A tool to valdiate cyclomatic complexity in Python.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "echo \"no tests\"",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocrosby/py-cyclo.git"
+  },
+  "keywords": [
+    "astro",
+    "compute"
+  ],
+  "author": "Omar Crosby <omar.crosby@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ocrosby/py-cyclo/issues"
+  },
+  "homepage": "https://github.com/ocrosby/py-cyclo#readme",
+  "devDependencies": {
+    "@babel/code-frame": "^7.26.2",
+    "@babel/helper-validator-identifier": "^7.25.9",
+    "@babel/highlight": "^7.25.9",
+    "@colors/colors": "^1.6.0",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/is-ignored": "^19.6.0",
+    "@eslint/js": "^9.12.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.3",
+    "cross-spawn": "^7.0.6",
+    "debug": "^4.4.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.10.0",
+    "husky": "^8.0.0",
+    "semantic-release": "^24.2.1",
+    "tinyexec": "^0.3.1"
+  }
+}
