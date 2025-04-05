@@ -33,7 +33,6 @@ def clean(c):
     c.run("find ./tests -type d -name '.mypy_cache' -exec rm -rf {} +")
 
 
-
 @task(aliases=["i"])
 def install(c):
     """Install dependencies."""
