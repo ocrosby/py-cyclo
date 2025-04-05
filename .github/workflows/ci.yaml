@@ -1,0 +1,127 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'bugfix/**'
+      - 'hotfix/**'
+  workflow_dispatch:
+
+jobs:
+  lint-javascript:
+    runs-on: ubuntu-24.04
+    container:
+      image: node:lts
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+          
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-          
+
+      - name: Install Dependencies
+        run: npm install --no-fund
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory /__w/py-cyclo/py-cyclo
+
+      - name: Run CommitLint
+        run: git log -1 --pretty=%B | npx commitlint
+
+      - name: Semantic Release Dry Run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          source venv/bin/activate
+          npx semantic-release --dry-run
+        shell: bash
+
+
+  lint-and-test-python:
+    runs-on: ubuntu-24.04
+    container:
+      image: python:3.13
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Setup
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install flit invoke
+          FLIT_ROOT_INSTALL=1 invoke install
+        shell: bash
+
+      - name: Validate Complexity
+        run: |
+          source venv/bin/activate
+          invoke check-complexity --max-complexity 12
+        shell: bash
+
+      - name: Analyze Syntax
+        run: |
+          source venv/bin/activate
+          invoke lint
+        shell: bash
+
+      - name: Unit Test
+        run: |
+          source venv/bin/activate
+          invoke test
+        shell: bash
+
+      - name: Report Coverage
+        uses: coverallsapp/github-action@v2
+
+  semantic-release-dryrun:
+    runs-on: ubuntu-24.04
+    needs: [lint-javascript, lint-and-test-python]
+    container:
+      image: node:lts
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-          
+
+      - name: Setup
+        run: npm install --no-fund
+
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory /__w/py-cyclo/py-cyclo
+
+      - name: Semantic Release Dry Run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          source venv/bin/activate
+          npx semantic-release --dry-run
+        shell: bash

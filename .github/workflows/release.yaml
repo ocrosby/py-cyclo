@@ -1,0 +1,100 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  packages: write
+  actions: write
+
+env:
+  NODE_VERSION: 'lts/*'
+  PYTHON_VERSION: '3.13'
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    container:
+      image: python:3.13
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          clean: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Create virtual environment
+        run: |
+          python3 -m venv venv
+        shell: bash
+
+      - name: Install Dependencies
+        run: |
+          source venv/bin/activate
+          npm install --no-fund
+          python3 -m pip install --upgrade pip
+          python3 -m pip install flit invoke build twine
+          FLIT_ROOT_INSTALL=1 invoke install --prod
+          pip list
+        shell: bash
+
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory /__w/py-cyclo/py-cyclo
+
+      - name: Run Semantic Release
+        id: semantic_release
+        env:
+          DEBUG: semantic-release:*
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          source venv/bin/activate
+          set -e  # Stop on the first error
+          npx semantic-release
+        shell: bash
+
+      - name: Check if a release is needed
+        run: |
+          echo "version_changed=${{ steps.semantic_release.outputs.version_changed }}"
+          echo "outcome=${{ steps.semantic_release.outcome }}"        
+
+      - name: Conditionally Build and Deploy Package
+        if: steps.semantic_release.outcome == 'success' && steps.semantic_release.outputs.version_changed == 'true'
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+            echo "Deploying to PyPI..."
+            source venv/bin/activate 
+            invoke build
+            python3 -m twine upload --repository pypi dist/*
+        shell: bash
