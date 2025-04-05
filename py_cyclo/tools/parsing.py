@@ -11,22 +11,18 @@ def parse_radon_output(output: str) -> Dict[Optional[str], Any]:
     lines = output.splitlines()
     current_file = None
     for line in lines:
-        try:
-            if not line.startswith(" "):
-                current_file = line.strip()
-                results[current_file] = []
-            else:
-                match = pattern.match(line)
-                if match:
-                    function_info = {
-                        "type": match.group(1),
-                        "location": match.group(2),
-                        "name": match.group(3),
-                        "complexity": match.group(4),
-                        "score": int(match.group(5)),
-                    }
-                    results[current_file].append(function_info)
-        except ValueError as e:
-            print(f"Error parsing line: '{line}'")
-            print(e)
+        if not line.startswith(" "):
+            current_file = line.strip()
+            results[current_file] = []
+        else:
+            match = pattern.match(line)
+            if match:
+                function_info = {
+                    "type": match.group(1),
+                    "location": match.group(2),
+                    "name": match.group(3),
+                    "complexity": match.group(4),
+                    "score": int(match.group(5)),
+                }
+                results[current_file].append(function_info)
     return results

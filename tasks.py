@@ -16,11 +16,22 @@ def clean(c):
         ".coverage",
         "coverage.xml",
         "*.log",
+        "junit.xml",
     ]
 
     for pattern in patterns:
         c.run(f"rm -rf {pattern}")
         shutil.rmtree(pattern, ignore_errors=True)
+
+    # Recursively remove .coverage directories in the tests package using find
+    c.run("find ./tests -type f -name '.coverage' -exec rm -f {} +")
+    c.run("find ./tests -type f -name 'junit.xml' -exec rm -f {} +")
+    c.run("find ./tests -type f -name 'coverage.xml' -exec rm -f {} +")
+    c.run("find ./tests -type d -name '__pycache__' -exec rm -rf {} +")
+    c.run("find ./tests -type d -name '.pytest_cache' -exec rm -rf {} +")
+    c.run("find ./tests -type d -name 'htmlcov' -exec rm -rf {} +")
+    c.run("find ./tests -type d -name '.mypy_cache' -exec rm -rf {} +")
+
 
 
 @task(aliases=["i"])

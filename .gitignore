@@ -174,3 +174,5 @@ node_modules
 
 # PyPI configuration file
 .pypirc
+
+junit.xml
