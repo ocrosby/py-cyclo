@@ -3,7 +3,7 @@ import os
 from xml.dom.minidom import parse
 
 
-def pytest_sessionfinish(_session, _exitstatus):
+def pytest_sessionfinish(session, exitstatus):  # pylint: disable=unused-argument
     """Beautify the junit.xml file if it exists after the test session finishes."""
     junit_file = "junit.xml"
     if os.path.exists(junit_file):
