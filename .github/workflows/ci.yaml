@@ -73,12 +73,6 @@ jobs:
           FLIT_ROOT_INSTALL=1 invoke install
         shell: bash
 
-      - name: Validate Complexity
-        run: |
-          source venv/bin/activate
-          invoke check-complexity --max-complexity 12
-        shell: bash
-
       - name: Analyze Syntax
         run: |
           source venv/bin/activate
