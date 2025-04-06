@@ -3,7 +3,8 @@
 **py-cyclo** is a general-purpose command-line tool for analyzing and validating cyclomatic complexity in Python code. Designed for developers who want to maintain clean, testable, and maintainable code, `py-cyclo` provides detailed reports and enforcement mechanisms to ensure your codebase doesn't spiral out of control.
 
 ![License](https://img.shields.io/github/license/ocrosby/py-cyclo)
-![Tests](https://img.shields.io/github/actions/workflow/status/ocrosby/py-cyclo/tests.yml)
+[![Continuous Integration](https://github.com/ocrosby/py-cyclo/actions/workflows/ci.yaml/badge.svg)](https://github.com/ocrosby/py-cyclo/actions/workflows/ci.yaml)
+[![Release](https://github.com/ocrosby/py-cyclo/actions/workflows/release.yaml/badge.svg)](https://github.com/ocrosby/py-cyclo/actions/workflows/release.yaml)
 ![PyPI](https://img.shields.io/pypi/v/py-cyclo)
 
 ---
