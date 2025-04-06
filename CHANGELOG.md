@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/ocrosby/py-cyclo/compare/v1.0.0...v1.0.1) (2025-04-06)
+
+
+### Bug Fixes
+
+* put dependencies on new lines ([6c69602](https://github.com/ocrosby/py-cyclo/commit/6c696028f56a8b52155b95794e18454992f9b30f))
+
 # 1.0.0 (2025-04-06)
 
 
