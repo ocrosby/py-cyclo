@@ -6,7 +6,9 @@ build-backend = "flit_core.buildapi"
 name = "py-cyclo"
 version = "1.0.0"
 description = "A general purpose tool for validating cyclomatic complexity in Python."
+readme = "README.md"
 dependencies = [ "click", "radon", "toml",]
+
 [[project.authors]]
 name = "Omar Crosby"
 email = "omar.crosby@gmail.com"
