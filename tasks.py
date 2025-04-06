@@ -1,6 +1,6 @@
 import shutil
 
-from invoke import task, Context
+from invoke import Context, task
 
 
 @task(aliases=["c"])
@@ -55,16 +55,16 @@ def install(c: Context, prod: bool = False) -> None:
 @task(aliases=["f"])
 def format_code(c: Context) -> None:
     """Format code using black."""
-    c.run("isort py_cyclo/ tests/ tasks.py")
-    c.run("black py_cyclo/ tests/ tasks.py")
+    c.run("isort py_cyclo/ tests/ tasks.py update_version.py")
+    c.run("black py_cyclo/ tests/ tasks.py update_version.py")
 
 
 @task(aliases=["l"], pre=[format_code])
 def lint(c: Context) -> None:
     """Lint code using flake8, pylint, and isort."""
-    c.run("flake8 py_cyclo/ tests/ tasks.py")
-    c.run("pylint py_cyclo/ tests/ tasks.py")
-    c.run("isort --check-only py_cyclo/ tests/ tasks.py")
+    c.run("flake8 py_cyclo/ tests/ tasks.py update_version.py")
+    c.run("pylint py_cyclo/ tests/ tasks.py update_version.py")
+    c.run("isort --check-only py_cyclo/ tests/ tasks.py update_version.py")
 
 
 @task(aliases=["t"])

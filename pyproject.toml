@@ -10,6 +10,7 @@ authors = [{name = "Omar Crosby", email = "omar.crosby@gmail.com"}]
 dependencies = [
     "click",
     "radon",
+    "toml"
 ]
 
 [project.optional-dependencies]
