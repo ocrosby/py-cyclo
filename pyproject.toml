@@ -1,49 +1,24 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
+requires = [ "flit_core >=3.2,<4",]
 build-backend = "flit_core.buildapi"
 
 [project]
 name = "py-cyclo"
-version = "0.1.0"
+version = "1.0.0"
 description = "A general purpose tool for validating cyclomatic complexity in Python."
-authors = [{name = "Omar Crosby", email = "omar.crosby@gmail.com"}]
-dependencies = [
-    "click",
-    "radon",
-    "toml"
-]
+dependencies = [ "click", "radon", "toml",]
+[[project.authors]]
+name = "Omar Crosby"
+email = "omar.crosby@gmail.com"
 
 [project.optional-dependencies]
-dev = [
-    "build",
-    "pytest",
-    "pytest-cov",
-    "pytest-mock",
-    "mypy",
-    "black",
-    "flake8",
-    "isort",
-    "pylint"
-]
+dev = [ "build", "pytest", "pytest-cov", "pytest-mock", "mypy", "black", "flake8", "isort", "pylint",]
 
 [project.scripts]
 cyclo = "py_cyclo.main:check_complexity"
 
 [tool.black]
 line-length = 88
-target-version = ['py38']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-)/
-'''
-
+target-version = [ "py38",]
+include = "\\.pyi?$"
+exclude = "/(\n    \\.git\n    | \\.hg\n    | \\.mypy_cache\n    | \\.tox\n    | \\.venv\n    | _build\n    | buck-out\n    | build\n    | dist\n)/\n"
