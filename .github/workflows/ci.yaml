@@ -84,8 +84,13 @@ jobs:
           invoke test
         shell: bash
 
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory /__w/py-cyclo/py-cyclo
+
       - name: Report Coverage
         uses: coverallsapp/github-action@v2
+        with:
+          github-token: '${{ secrets.GH_TOKEN }}'
 
   semantic-release-dryrun:
     runs-on: ubuntu-24.04
