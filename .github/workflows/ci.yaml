@@ -90,7 +90,7 @@ jobs:
       - name: Report Coverage
         uses: coverallsapp/github-action@v2
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   semantic-release-dryrun:
     runs-on: ubuntu-24.04
