@@ -1,55 +1,42 @@
 # python
+import os
 import subprocess
 import sys
+from typing import Set
 
 import click
+from radon.complexity import cc_visit
 
-from py_cyclo.tools.analysis import get_max_score
-from py_cyclo.tools.display import (
-    display_exceeded_complexity,
-    display_radon_results,
-)
-from py_cyclo.tools.parsing import parse_radon_output
+from py_cyclo.controllers.complexity_controller import ComplexityController
+from py_cyclo.models.complexity_model import ComplexityModel
+from py_cyclo.services.complexity_service import ComplexityService
+from py_cyclo.tools.display import handle_results
+from py_cyclo.views.complexity_view import ComplexityView
 
 
 @click.command()
+@click.argument("path", type=click.Path(exists=True, file_okay=False, dir_okay=True))
 @click.option(
-    "--max-complexity", default=12, help="The maximum allowed cyclomatic complexity."
+    "--max-complexity", "-m", default=12, help="The maximum allowed cyclomatic complexity."
 )
-def check_complexity(max_complexity: int) -> None:
+def check_complexity(path: str, max_complexity: int) -> None:
     """
     Check the cyclomatic complexity of the code.
     Fail if it exceeds the max_complexity.
     """
-    try:
-        click.echo("Checking cyclomatic complexity ...")
-        result = subprocess.run(
-            ["radon", "cc", "py_cyclo", "-s"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
+    main(path, max_complexity)
 
-        if result is None:
-            click.echo("No output from radon.")
-            sys.exit(1)
 
-        output = result.stdout
-        results = parse_radon_output(output)
-        display_radon_results(results)
-        max_score = get_max_score(results)
+def main(path: str, max_complexity: int) -> None:
+    """
+    Main function to run the cyclomatic complexity check.
+    """
+    view = ComplexityView()
+    service = ComplexityService()
+    model = ComplexityModel(path, max_complexity, {"node_modules", ".venv", "venv"})
+    controller = ComplexityController(service, model, view)
 
-        if max_score > max_complexity:
-            click.echo(
-                f"\nFAILED - Maximum complexity {max_complexity} "
-                f"exceeded by {max_score}\n"
-            )
-            click.echo("\nFunctions with complexity greater than the maximum allowed:")
-            display_exceeded_complexity(results, max_complexity)
-            sys.exit(1)
+    controller.check_complexity()
 
-        click.echo(f"\nMaximum complexity not exceeded: {max_score}\n")
-        sys.exit(0)
-    except subprocess.CalledProcessError as err:
-        click.echo(f"Error occurred while checking complexity: {err}")
-        sys.exit(1)
+if __name__ == "__main__":
+    main(".", 12)

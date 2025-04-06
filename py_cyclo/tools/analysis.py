@@ -1,11 +1,17 @@
 # python
-from typing import Any, Dict, Optional
+import sys
+
+import click
 
 
-def get_max_score(results: Dict[Optional[str], Any]) -> int:
-    max_score = 0
-    for _, functions in results.items():
-        for function in functions:
-            if function["score"] > max_score:
-                max_score = function["score"]
+def get_max_score(results):
+    """
+    Get the maximum cyclomatic complexity score from the results.
+    """
+    if not results:
+        click.echo("No output from radon.")
+        sys.exit(1)
+
+    max_score = max(result.complexity for result in results)
+
     return max_score
