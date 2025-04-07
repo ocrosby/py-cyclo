@@ -16,7 +16,7 @@ class ComplexityModel:
     def __str__(self):
         return (
             f"ComplexityModel(path={self.path}, max_complexity={self.max_complexity}, "
-            f"exclude_dirs={list(self.exclude_dirs)})"
+            f"exclude_dirs={sorted(list(self.exclude_dirs))})"
         )
 
     def __repr__(self):
