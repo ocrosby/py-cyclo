@@ -1,4 +1,5 @@
 # py_cyclo/controllers/complexity_controller.py
+# pylint: disable=too-few-public-methods
 import os
 import sys
 from typing import List
@@ -44,11 +45,15 @@ class ComplexityController:
         count = len(exceeding)
         if count > 0:
             click.echo(
-                f"\n{count} functions exceed the maximum complexity of {self.model.max_complexity}:"
+                f"\n{count} functions exceed the maximum complexity "
+                f"of {self.model.max_complexity}:"
             )
             self.view.display_complexity_table(exceeding)
         else:
-            click.echo(f"There are no functions exceeding the maximum complexity of {self.model.max_complexity}.")
+            click.echo(
+                f"There are no functions exceeding the maximum complexity "
+                f"of {self.model.max_complexity}."
+            )
 
         click.echo()
 
@@ -58,7 +63,9 @@ class ComplexityController:
 
         count = len(within)
         if count > 0:
-            click.echo(f"\n{count} functions with a complexity < {self.model.max_complexity}:")
+            click.echo(
+                f"\n{count} functions with a complexity < {self.model.max_complexity}:"
+            )
             self.view.display_complexity_table(within)
         else:
             click.echo("There are no functions within the maximum complexity.")

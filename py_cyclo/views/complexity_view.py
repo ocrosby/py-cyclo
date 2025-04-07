@@ -17,7 +17,12 @@ class ComplexityView:
 
         # Prepare data for tabulate
         table_data = [
-            [result.name, result.complexity, result.lineno, os.path.relpath(result.filename)]
+            [
+                result.name,
+                result.complexity,
+                result.lineno,
+                os.path.relpath(result.filename),
+            ]
             for result in sorted_results
         ]
 

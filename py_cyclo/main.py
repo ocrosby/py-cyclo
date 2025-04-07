@@ -1,16 +1,10 @@
 # python
-import os
-import subprocess
-import sys
-from typing import Set
 
 import click
-from radon.complexity import cc_visit
 
 from py_cyclo.controllers.complexity_controller import ComplexityController
 from py_cyclo.models.complexity_model import ComplexityModel
 from py_cyclo.services.complexity_service import ComplexityService
-from py_cyclo.tools.display import handle_results
 from py_cyclo.views.complexity_view import ComplexityView
 
 
