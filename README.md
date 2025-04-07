@@ -160,6 +160,12 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
+## References
+
+- [Cyclomatic Complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
+- [Cyclomatic Complexity](https://www.ibm.com/docs/en/raa/6.1.0?topic=metrics-cyclomatic-complexity#:~:text=Cyclomatic%20complexity%20is%20a%20measurement,and%20less%20risky%20to%20modify.)
+- [Cyclomatic Complexity Explained with Practical Examples](https://www.youtube.com/watch?v=vmyS_j3Kh8g)
+
 ## 📬 Contact
 
 Feel free to reach out via GitHub Issues or submit feature requests and bugs.
