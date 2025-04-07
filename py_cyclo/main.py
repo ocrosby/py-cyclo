@@ -17,7 +17,10 @@ from py_cyclo.views.complexity_view import ComplexityView
 @click.command()
 @click.argument("path", type=click.Path(exists=True, file_okay=False, dir_okay=True))
 @click.option(
-    "--max-complexity", "-m", default=12, help="The maximum allowed cyclomatic complexity."
+    "--max-complexity",
+    "-m",
+    default=12,
+    help="The maximum allowed cyclomatic complexity.",
 )
 def check_complexity(path: str, max_complexity: int) -> None:
     """
@@ -37,6 +40,7 @@ def main(path: str, max_complexity: int) -> None:
     controller = ComplexityController(service, model, view)
 
     controller.check_complexity()
+
 
 if __name__ == "__main__":
     main(".", 12)

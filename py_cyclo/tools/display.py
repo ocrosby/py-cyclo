@@ -21,7 +21,6 @@ def display_exceeded_complexity(results, max_complexity):
             click.echo(f"{result['name']}: {result['complexity']}")
 
 
-
 def display_radon_results(results: Dict[Optional[str], Any]) -> None:
     for file, functions in results.items():
         print(f"\nFile: {file}")

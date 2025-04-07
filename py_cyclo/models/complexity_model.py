@@ -1,15 +1,17 @@
 # py_cyclo/models/complexity_model.py
 import os
-from typing import Set, Optional
+from typing import Optional, Set
 
 from radon.complexity import cc_visit
 
+
 class ComplexityModel:
-    def __init__(self,
-                 path: Optional[str] = None,
-                 max_complexity: Optional[int] = 0,
-                 exclude_dirs: Optional[Set[str]] = None
-                 ):
+    def __init__(
+        self,
+        path: Optional[str] = None,
+        max_complexity: Optional[int] = 0,
+        exclude_dirs: Optional[Set[str]] = None,
+    ):
         self.path = path
         self.max_complexity = max_complexity
         self.exclude_dirs = exclude_dirs
