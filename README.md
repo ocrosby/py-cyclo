@@ -37,23 +37,72 @@ pip install git+https://github.com/ocrosby/py-cyclo.git
 
 ## 🛠️ Usage
 
+```text
+Usage: cyclo [OPTIONS] PATH
+```
+
+### Example Command
+
 ```bash
-# Execute this from within your project directory
-cyclo --max-complexity 10
+# Validate the cyclomatic complexity of all Python files in the current directory
+# and its subdirectories is less than or equal to 10
+cyclo --max-complexity 10 .
+```
+
+or 
+
+### Example Command
+
+```bash
+# Validate the cyclomatic complexity of all Python files in the current directory
+# and its subdirectories is less than or equal to 10
+cyclo -m 10 .
 ```
 
 ### Example Output
 
 ```text
-example.py:12 - function `process_data` has cyclomatic complexity of 13 (limit: 10)
+Checking cyclomatic complexity in "/path/to/project"...
+
+2 functions exceed the maximum complexity of 4:
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| Name                          |   Complexity |   Line No | Filename                                      |
++===============================+==============+===========+===============================================+
+| example_function              |            6 |        10 | example_module.py                             |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| another_function              |            5 |        20 | another_module.py                             |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+
+5 functions with a complexity < 4:
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| Name                          |   Complexity |   Line No | Filename                                      |
++===============================+==============+===========+===============================================+
+| simple_function               |            3 |        15 | simple_module.py                              |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| helper_function               |            2 |        25 | helper_module.py                              |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| utility_function              |            2 |        30 | utility_module.py                             |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| another_helper_function       |            1 |        35 | another_helper_module.py                      |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+| yet_another_function          |            1 |        40 | yet_another_module.py                         |
++-------------------------------+--------------+-----------+-----------------------------------------------+
+
+Maximum complexity: 6
+
+FAILED - Maximum complexity 4 exceeded by 2
+
+Functions with complexity greater than the maximum allowed:
+example_function: 6
+another_function: 5
 ```
 
 ### Options
 
-| Flag               | Description                                        |
-|--------------------|----------------------------------------------------|
-| `--max-complexity` | Set the maximum allowed complexity per function    |
-| `--help`           | Show CLI help                                      |
+| Flag                   | Description                                        |
+|------------------------|----------------------------------------------------|
+| `--max-complexity, -m` | Set the maximum allowed complexity per function    |
+| `--help`               | Show CLI help                                      |
 
 ---
 
@@ -110,6 +159,12 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [wemake-python-styleguide](https://github.com/wemake-services/wemake-python-styleguide)  
 
 ---
+
+## References
+
+- [Cyclomatic Complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
+- [Cyclomatic Complexity](https://www.ibm.com/docs/en/raa/6.1.0?topic=metrics-cyclomatic-complexity#:~:text=Cyclomatic%20complexity%20is%20a%20measurement,and%20less%20risky%20to%20modify.)
+- [Cyclomatic Complexity Explained with Practical Examples](https://www.youtube.com/watch?v=vmyS_j3Kh8g)
 
 ## 📬 Contact
 
