@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ocrosby/py-cyclo/compare/v1.0.1...v1.1.0) (2025-04-07)
+
+
+### Features
+
+* add tabular output ([c10e843](https://github.com/ocrosby/py-cyclo/commit/c10e843ce0f9c480971c64811a87f795b7c5a0d4))
+
 ## [1.0.1](https://github.com/ocrosby/py-cyclo/compare/v1.0.0...v1.0.1) (2025-04-06)
 
 
