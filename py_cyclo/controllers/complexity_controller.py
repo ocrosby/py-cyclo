@@ -24,10 +24,14 @@ class ComplexityController:
         # Convert the path to an absolute path
         self.model.path = os.path.abspath(self.model.path)
 
+        exclude_dirs = self.model.exclude_dirs or []  # Default to an empty list if None
+
         click.echo(f'Checking cyclomatic complexity in "{self.model.path}"...')
+        click.echo(f"Maximum complexity: {self.model.max_complexity}")
+        click.echo(f'Excluding directories: {", ".join(exclude_dirs)}')
 
         files_to_analyze = self.service.get_files_to_analyze(
-            self.model.path, self.model.exclude_dirs
+            self.model.path, exclude_dirs
         )
         if not files_to_analyze:
             click.echo("No Python files found to analyze.")

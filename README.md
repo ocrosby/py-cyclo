@@ -46,7 +46,7 @@ Usage: cyclo [OPTIONS] PATH
 ```bash
 # Validate the cyclomatic complexity of all Python files in the current directory
 # and its subdirectories is less than or equal to 10
-cyclo --max-complexity 10 .
+cyclo --max-complexity 10 --exclude-dirs .venv,tests .
 ```
 
 or 
@@ -56,7 +56,7 @@ or
 ```bash
 # Validate the cyclomatic complexity of all Python files in the current directory
 # and its subdirectories is less than or equal to 10
-cyclo -m 10 .
+cyclo -m 10 -e .venv,tests .
 ```
 
 ### Example Output
@@ -102,13 +102,34 @@ another_function: 5
 | Flag                   | Description                                        |
 |------------------------|----------------------------------------------------|
 | `--max-complexity, -m` | Set the maximum allowed complexity per function    |
+| `--exclude-dirs, -e`   | Comma-separated list of directories to exclude    |
 | `--help`               | Show CLI help                                      |
 
 ---
 
 ## 🔧 Configuration
 
-At present there are no configuration options.
+You can use a .cyclo configuration file to set default options for `cyclo`. This file should be
+placed in the root directory of your project. Here is an example configuration:
+
+```plaintext
+[cyclo]
+max_complexity = 10
+exclude_dirs = .venv,tests,node_modules
+```
+
+You can then run `cyclo` without any options, and it will use the settings from the configuration file:
+
+### Example Command Using Configuration
+
+```bash
+# Run py-cyclo using the defaults from the .cyclo file
+cyclo .
+```
+
+If both the .cyclo file and command-line arguments are provided, the command-line arguments take precedence.
+
+This update ensures that users are aware of the new `exclude_dirs` argument and the `.cyclo` configuration file, and it provides clear examples of how to use them.
 
 ---
 
