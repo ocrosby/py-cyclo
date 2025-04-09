@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ocrosby/py-cyclo/compare/v1.1.1...v1.2.0) (2025-04-09)
+
+
+### Features
+
+* add configuration file support and directory exclusion ([7447cb6](https://github.com/ocrosby/py-cyclo/commit/7447cb6a29777b60ff0ca1a86107b110c2a091c7))
+
 ## [1.1.1](https://github.com/ocrosby/py-cyclo/compare/v1.1.0...v1.1.1) (2025-04-07)
 
 
