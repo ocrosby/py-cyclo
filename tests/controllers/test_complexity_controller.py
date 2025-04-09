@@ -32,6 +32,7 @@ def test_check_complexity_no_files_to_analyze(
 ):
     # Arrange
     mock_model.path = "/path"
+    mock_model.exclude_dirs = {".venv", "tests", "node_modules"}
     mock_service.get_files_to_analyze.return_value = []
     mocker.patch("os.path.abspath", return_value="/path")
 
@@ -49,6 +50,7 @@ def test_check_complexity_no_results(
 ):
     # Arrange
     mock_model.path = "/path"
+    mock_model.exclude_dirs = {".venv", "tests", "node_modules"}
     mock_service.get_files_to_analyze.return_value = ["/path/file1.py"]
     mock_service.analyze_files.return_value = []
     mocker.patch("os.path.abspath", return_value="/path")
@@ -67,6 +69,7 @@ def test_check_complexity_exceeding_functions(
 ):
     # Arrange
     mock_model.path = "/path"
+    mock_model.exclude_dirs = {".venv", "tests", "node_modules"}
     mock_model.max_complexity = 5
     mock_service.get_files_to_analyze.return_value = ["/path/file1.py"]
     results = [
@@ -112,6 +115,7 @@ def test_check_complexity_within_functions(
 ):
     # Arrange
     mock_model.path = "/path"
+    mock_model.exclude_dirs = {".venv", "tests", "node_modules"}
     mock_model.max_complexity = 10
     mock_service.get_files_to_analyze.return_value = ["/path/file1.py"]
     results = [
@@ -157,6 +161,7 @@ def test_check_complexity_no_functions_within_max(
 ):
     # Arrange
     mock_model.path = "/path"
+    mock_model.exclude_dirs = {".venv", "tests", "node_modules"}
     mock_model.max_complexity = 5
     mock_service.get_files_to_analyze.return_value = ["/path/file1.py"]
     results = [
